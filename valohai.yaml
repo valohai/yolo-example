@@ -10,7 +10,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
         keep-directories: suffix
     parameters:
       - name: data
@@ -50,7 +50,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
         keep-directories: suffix
       - name: model
         default:
@@ -85,7 +85,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
         keep-directories: suffix
       - name: model
         default:
@@ -116,7 +116,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128-seg/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128-seg/*
         keep-directories: suffix
     parameters:
       - name: data
@@ -152,7 +152,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128-seg/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128-seg/*
         keep-directories: suffix
       - name: model
         default:
@@ -187,7 +187,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128-seg/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128-seg/*
         keep-directories: suffix
       - name: model
         default:
@@ -243,7 +243,7 @@
     inputs:
       - name: datasets
         default:
-          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
         keep-directories: suffix
       - name: model
         default:

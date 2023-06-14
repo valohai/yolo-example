@@ -1,0 +1,265 @@
+- step:
+    name: train-yolov5
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - git clone https://github.com/ultralytics/yolov5.git
+      - pip install valohai-utils
+      - nohup python ./scripts/valohai_watch.py &
+      - python yolov5/train.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+        keep-directories: suffix
+    parameters:
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: epochs
+        default: 3
+        type: integer
+        description: total training epochs
+      - name: batch
+        default: 16
+        type: integer
+        description: total batch size for all GPUs
+      - name: img
+        default: 640
+        type: integer
+        description: train
+      - name: optimizer
+        default: "SGD"
+        type: string
+        description: optimizer
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name
+
+- step:
+    name: predict-yolov5
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - git clone https://github.com/ultralytics/yolov5.git
+      - pip install valohai-utils
+      - nohup python ./scripts/valohai_watch.py &
+      - python yolov5/detect.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+        keep-directories: suffix
+      - name: model
+        default:
+          - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
+    parameters:
+      - name: weights
+        default: /valohai/inputs/model/yolov5m.pt
+        type: string
+        description: model weights
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: source
+        default: /valohai/inputs/datasets/images/train2017
+        type: string
+        description: dataset path
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name
+
+- step:
+    name: validate-yolov5
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - git clone https://github.com/ultralytics/yolov5.git
+      - pip install valohai-utils
+      - nohup python ./scripts/valohai_watch.py &
+      - python yolov5/val.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+        keep-directories: suffix
+      - name: model
+        default:
+          - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
+    parameters:
+      - name: weights
+        default: /valohai/inputs/model/yolov5m.pt
+        type: string
+        description: model weights
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name
+
+- step:
+    name: train-seg-yolov5
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - git clone https://github.com/ultralytics/yolov5.git
+      - pip install valohai-utils
+      - nohup python ./scripts/valohai_watch.py &
+      - python yolov5/segment/train.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128-seg/*
+        keep-directories: suffix
+    parameters:
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: epochs
+        default: 3
+        type: integer
+        description: total training epochs
+      - name: batch
+        default: 16
+        type: integer
+        description: total batch size for all GPUs
+      - name: img
+        default: 640
+        type: integer
+        description: train
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name
+
+- step:
+    name: predict-seg-yolov5
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - git clone https://github.com/ultralytics/yolov5.git
+      - pip install valohai-utils
+      - nohup python ./scripts/valohai_watch.py &
+      - python yolov5/segment/predict.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128-seg/*
+        keep-directories: suffix
+      - name: model
+        default:
+          - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m-seg.pt
+    parameters:
+      - name: weights
+        default: /valohai/inputs/model/yolov5m-seg.pt
+        type: string
+        description: model weights
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: source
+        default: /valohai/inputs/datasets/images/train2017/
+        type: string
+        description: dataset path
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name
+
+- step:
+    name: validate-seg-yolov5
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - git clone https://github.com/ultralytics/yolov5.git
+      - pip install valohai-utils
+      - nohup python ./scripts/valohai_watch.py &
+      - python yolov5/segment/val.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128-seg/*
+        keep-directories: suffix
+      - name: model
+        default:
+          - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m-seg.pt
+    parameters:
+      - name: weights
+        default: /valohai/inputs/model/yolov5m-seg.pt
+        type: string
+        description: model weights
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name
+
+- pipeline:
+    name: train-val-pipeline-yolov5
+    nodes:
+      - name: training
+        type: execution
+        step: train-yolov5
+      - name: validation
+        type: execution
+        step: validate-yolov5
+        override:
+          parameters:
+            - name: weights
+              default: /valohai/inputs/model/best.pt
+              type: string
+              description: model weights
+            - name: data
+              default: datasets/coco128.yaml
+              type: string
+              description: dataset.yaml path
+            - name: project
+              default: /valohai/outputs/
+              type: string
+              description: save to project/name
+    edges:
+      - [training.output.*best.pt, validation.input.model]
+
+- step:
+    name: run-yolov8
+    image: drazend/yolov5
+    environment: aws-eu-west-1-p2-xlarge
+    command:
+      - pip install valohai-utils onnx>=1.12.0
+      - nohup python ./scripts/valohai_watch.py &
+      - python ./scripts/run_yolov8.py {parameters}
+    inputs:
+      - name: datasets
+        default:
+          - s3://sofiia-valohai-yolov5/datasets/coco128/*
+        keep-directories: suffix
+      - name: model
+        default:
+          - https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8l.pt
+    parameters:
+      - name: weights
+        default: /valohai/inputs/model/yolov8l.pt
+        type: string
+        description: model weights
+      - name: epochs
+        default: 3
+      - name: data
+        default: datasets/coco128.yaml
+        type: string
+        description: dataset.yaml path
+      - name: project
+        default: /valohai/outputs/
+        type: string
+        description: save to project/name

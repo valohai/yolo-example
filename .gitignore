@@ -1,0 +1,6 @@
+*.gz
+*.pb
+.DS_Store
+.ipynb_checkpoints/
+.valohai/
+.idea/

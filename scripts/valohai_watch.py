@@ -13,7 +13,6 @@ metric_output_dir = os.path.join(VH_OUTPUTS_DIR)
 
 class ValohaiHandler(PatternMatchingEventHandler):
     def on_modified(self, event):
-        print(f"event type: {event.event_type}  path : {event.src_path}")
         if ".csv" in event.src_path:
             with open(event.src_path, "r") as file:
                 data = list(csv.reader(file, delimiter=","))
@@ -31,6 +30,7 @@ class ValohaiHandler(PatternMatchingEventHandler):
 
                 print(json.dumps(metadata))
 
+    def on_created(self, event):
         if (".pt" in event.src_path) or (".onnx" in event.src_path):
             with open(event.src_path, "r"):
                 # Choose alias name
@@ -50,7 +50,7 @@ class ValohaiHandler(PatternMatchingEventHandler):
                 # Save metadata file in the save location as the model
                 metadata_path = valohai.outputs().path(os.path.join(model_path, f"{model_name}.metadata.json"))
                 with open(metadata_path, "w") as outfile:
-                    print(json.dump(metadata, outfile))
+                    json.dump(metadata, outfile)
 
 
 if __name__ == "__main__":

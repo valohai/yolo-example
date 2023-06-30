@@ -4,13 +4,14 @@
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
+      - tar -xf /valohai/inputs/datasets/coco128.tar
       - pip install valohai-utils
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/train.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128.tar
         keep-directories: suffix
     parameters:
       - name: data
@@ -44,14 +45,14 @@
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
+      - tar -xf /valohai/inputs/datasets/coco128.tar
       - pip install valohai-utils
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/detect.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
-        keep-directories: suffix
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128.tar
       - name: model
         default:
           - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
@@ -65,7 +66,7 @@
         type: string
         description: dataset.yaml path
       - name: source
-        default: /valohai/inputs/datasets/images/train2017
+        default: /valohai/repository/coco128/images/train2017
         type: string
         description: dataset path
       - name: project
@@ -79,14 +80,14 @@
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
+      - tar -xf /valohai/inputs/datasets/coco128.tar
       - pip install valohai-utils
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/val.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
-        keep-directories: suffix
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128.tar
       - name: model
         default:
           - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
@@ -110,17 +111,17 @@
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
+      - tar -xf /valohai/inputs/datasets/coco128-seg.tar
       - pip install valohai-utils
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/segment/train.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128-seg/*
-        keep-directories: suffix
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128-seg.tar
     parameters:
       - name: data
-        default: datasets/coco128.yaml
+        default: datasets/coco128-seg.yaml
         type: string
         description: dataset.yaml path
       - name: epochs
@@ -146,14 +147,14 @@
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
+      - tar -xf /valohai/inputs/datasets/coco128-seg.tar
       - pip install valohai-utils
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/segment/predict.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128-seg/*
-        keep-directories: suffix
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128-seg.tar
       - name: model
         default:
           - https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m-seg.pt
@@ -163,11 +164,11 @@
         type: string
         description: model weights
       - name: data
-        default: datasets/coco128.yaml
+        default: datasets/coco128-seg.yaml
         type: string
         description: dataset.yaml path
       - name: source
-        default: /valohai/inputs/datasets/images/train2017/
+        default: /valohai/repository/coco128-seg/images/train2017/
         type: string
         description: dataset path
       - name: project
@@ -181,13 +182,14 @@
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
+      - tar -xf /valohai/inputs/datasets/coco128-seg.tar
       - pip install valohai-utils
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/segment/val.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128-seg/*
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128-seg.tar
         keep-directories: suffix
       - name: model
         default:
@@ -198,7 +200,7 @@
         type: string
         description: model weights
       - name: data
-        default: datasets/coco128.yaml
+        default: datasets/coco128-seg.yaml
         type: string
         description: dataset.yaml path
       - name: project
@@ -237,14 +239,14 @@
     image: drazend/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
+      - tar -xf /valohai/inputs/datasets/coco128.tar
       - pip install valohai-utils onnx>=1.12.0
       - nohup python ./scripts/valohai_watch.py &
       - python ./scripts/run_yolov8.py {parameters}
     inputs:
       - name: datasets
         default:
-          - s3://valohai-academy-files/tutorials/valohai-yolo-example/coco128/*
-        keep-directories: suffix
+          - https://valohai-examples.s3.eu-west-1.amazonaws.com/yolo-samples/coco128.tar
       - name: model
         default:
           - https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8l.pt

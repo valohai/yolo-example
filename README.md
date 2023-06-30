@@ -5,7 +5,7 @@ This serves as an example showcasing the seamless integration of the [Valohai ML
 Here, we demonstrate the implementation of [YOLOv5][yl5] with the Valohai platform.
 Additionally, we provide insights into utilizing [YOLOv8][yl8] as a library in conjunction with Valohai.
 
-**We've preserved the original YOLO code while leveraging the true magic within the valohai.yaml file, where essential configurations are defined.**
+**We've preserved the original YOLO code while leveraging the true magic within the `valohai.yaml` file, where essential configurations are defined.**
 
 We hope this serves as a helpful resource for your MLOps journey!
 
@@ -104,7 +104,7 @@ For example, to run the preprocess-dataset step, use the command:
 vh execution run train-yolov5 --adhoc
 ```
 
-You can also set parameters for your execution (see what paramenters you can set in valohai.yaml):
+You can also set parameters for your execution (see what paramenters you can set in `valohai.yaml`):
 
 ```bash
 vh execution run train-yolov5 --epochs=10 --adhoc
@@ -170,25 +170,35 @@ Additionally, once the execution is complete, you can access the output files co
 To ensure the integrity of the original YOLOv5 repository, we decided not to modify it.
 However, we needed to connect the dataset to our S3 bucket by adjusting the file path.
 
-We created our own version of the coco128.yaml file named _datasets/coco128.yaml_.
+We created our own version of the coco128.yaml file named `datasets/coco128.yaml` and `datasets/coco128-seg.yaml` for segmentation.
 
-In this customized YAML file, we set the dataset path to _valohai/inputs/datasets/_.
+In this customized YAML files, we set the dataset path to `/valohai/repository/coco128/` and `/valohai/repository/coco128-seg/`.
 
 ### Utilizing Valohai Inputs for Dataset Integration
 
 To streamline the process, we made use of **Valohai inputs.**
 
-Configuring the valohai.yaml file, we defined default input datasets that include the link to our S3 bucket.
+Configuring the `valohai.yaml` file, we defined default input datasets that include the link to our S3 bucket.
 
 When executing the code, Valohai automatically handles the downloading and caching of the dataset, ensuring seamless integration with our workflow.
 
-### Use custom data with S3 bucket
+### Utilizing Archived Dataset
+
+In order to make this repository accessible to all Valohai users, we have utilized a .tar dataset instead of a wildcard with the S3 bucket. This decision was made because public S3 buckets do not support wildcard functionality.
+
+Therefore, in the `valohai.yaml` file, you will notice that we use the link to `coco128.tar` file as the default dataset input and employ the tar command (`tar -xf /valohai/inputs/datasets/coco128.tar`) in the command section to extract the dataset.
+
+### Utilizing private S3 bucket wildcard
 
 1. Create your own S3 bucket. [Follow these steps.][s3]
-2. Upload your custom dataset to the S3 bucket.
+2. Upload your dataset to the S3 bucket.
 3. Add S3 bucket to your Data Store. To include an S3 bucket as your Data Store, navigate to the project's settings, then select Data Stores.
    From there, you can add a new store by choosing Amazon S3.
-4. Set the link to your S3 bucket as the default dataset in valohai.yaml, add it to the inputs section of the relevant step.
+4. Set the link to your S3 bucket as the default dataset in `valohai.yaml`, add it to the inputs section of the relevant step. 
+Which should look like this: `s3://data-yolov5/datasets/coco128/*`
+5. Change the link to dataset in `datasets/coco128.yaml` file. Set `path:/valohai/inputs/datasets/`
+
+6. Delete the `tar -xf /valohai/inputs/datasets/coco128.tar` from command section in `valohai.yaml`
 
 ![alt text](https://github.com/valohai/yolo-example/blob/master/screenshots/add_s3_bucket.jpg)
 

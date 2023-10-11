@@ -1,11 +1,11 @@
 - step:
     name: train-yolov5
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
       - tar -xf /valohai/inputs/datasets/coco128.tar
-      - pip install valohai-utils
+      - pip install valohai-utils watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/train.py {parameters}
     inputs:
@@ -41,12 +41,12 @@
 
 - step:
     name: predict-yolov5
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
       - tar -xf /valohai/inputs/datasets/coco128.tar
-      - pip install valohai-utils
+      - pip install valohai-utils watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/detect.py {parameters}
     inputs:
@@ -76,12 +76,12 @@
 
 - step:
     name: validate-yolov5
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
       - tar -xf /valohai/inputs/datasets/coco128.tar
-      - pip install valohai-utils
+      - pip install valohai-utils watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/val.py {parameters}
     inputs:
@@ -107,12 +107,12 @@
 
 - step:
     name: train-seg-yolov5
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
       - tar -xf /valohai/inputs/datasets/coco128-seg.tar
-      - pip install valohai-utils
+      - pip install valohai-utils watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/segment/train.py {parameters}
     inputs:
@@ -143,12 +143,12 @@
 
 - step:
     name: predict-seg-yolov5
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
       - tar -xf /valohai/inputs/datasets/coco128-seg.tar
-      - pip install valohai-utils
+      - pip install valohai-utils watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/segment/predict.py {parameters}
     inputs:
@@ -178,12 +178,12 @@
 
 - step:
     name: validate-seg-yolov5
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - git clone https://github.com/ultralytics/yolov5.git
       - tar -xf /valohai/inputs/datasets/coco128-seg.tar
-      - pip install valohai-utils
+      - pip install valohai-utils watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python yolov5/segment/val.py {parameters}
     inputs:
@@ -236,11 +236,11 @@
 
 - step:
     name: run-yolov8
-    image: drazend/yolov5
+    image: ultralytics/yolov5
     environment: aws-eu-west-1-p2-xlarge
     command:
       - tar -xf /valohai/inputs/datasets/coco128.tar
-      - pip install valohai-utils onnx>=1.12.0
+      - pip install valohai-utils onnx>=1.12.0 watchdog
       - nohup python ./scripts/valohai_watch.py &
       - python ./scripts/run_yolov8.py {parameters}
     inputs:

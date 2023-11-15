@@ -265,3 +265,53 @@
         default: /valohai/outputs/
         type: string
         description: save to project/name
+
+- steps:
+    name: prepare_images
+    image: valohai/python3-torch:1.8.0
+    command: >
+      mkdir -p /workspace/images &&
+        python prepare_images.py \
+        --connection_string {{ input.azure_blob_storage_connection_string }} \
+        --container_name {{ input.blob_container_name }}
+    inputs:
+    - name: azure_blob_storage_connection_string
+      description: Connection string to your Azure Blob Storage.
+      type: str
+      required: true
+      default: 'DefaultEndpointsProtocol=https;AccountName=depprocureformstorage;AccountKey=Ze0i+1gPZIw5NRNV/r9C+/comhFAX+jOCSNVzN7jSMwmQqCKf/Aw3oq/Qi3sUkLDLcFviEXNawbl+AStqOf7Hg==;EndpointSuffix=core.windows.net'
+    - name: blob_container_name
+      description: Name of the blob container.
+      type: str
+      required: true
+      default: 'raspberry-data'
+    - name: image_file_names
+      description: List of image file names.
+      type: list
+      type_arg: str
+      required: true
+      default: []
+      
+    parameters:
+    - name: batch_size
+      description: Number of images per batch.
+      type: int
+      default: 5
+ 
+    - name: learning_rate
+      description: Learning rate for the model.
+      type: float
+      default: 0.001
+ 
+    - name: num_epochs
+      description: Number of epochs to train the model.
+      type: int
+      default: 3
+    - name: yolo_weights_url
+      description: URL to download the pre-trained YOLOv5 weights.
+      type: str
+      default: 'https://github.com/ultralytics/yolov5/releases/download/v5.0/yolov5s.pt'
+    - name: model_output_directory
+      description: Path to save the trained model.
+      type: str
+      default: '/output/models'
